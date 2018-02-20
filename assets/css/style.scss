@@ -1,0 +1,35 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+body {
+	background-color: #EDF0ED;
+}
+
+.markdown-body img { 
+	background-color: transparent;
+}
+
+a {
+	color: #3171A7;
+}
+
+a:hover {
+	color: #4080B0;
+	text-decoration: none;
+	text-shadow: 1px 1px 1px #123C6B;
+}
+
+p.trademark {
+	font-size: 80%;
+	color: #B6B6B6;
+	text-shadow: 1px 1px 1px #D6D6D6;
+}
+
+p.footer {
+	font-size: 80%;
+	color: #B6B6B6;
+	text-shadow: 1px 1px 1px #D6D6D6;
+	text-align: right;
+}

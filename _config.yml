@@ -1,1 +1,3 @@
-theme: jekyll-theme-slate
+theme: jekyll-theme-primer
+title: Linux Engineering
+description: Building a stable Linux server
