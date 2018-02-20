@@ -137,17 +137,17 @@ While not designed as complete full-featured init system, OpenRC provides an eas
 ---
 ## Daemontools Family
 
-Also dubbed the Maxwell's equations of Unix process management and supervision<sup>([1](http://blog.darknedgy.net/technology/2015/09/05/0/))</sup>, the [daemontools](http://cr.yp.to/daemontools.html) suite was developed by cryptologist Daniel J. Bernstein in 1997<sup>([2](https://jdebp.eu/FGA/daemontools-family.html))</sup> as a completely new, modern approach to service management. daemontools itself does not include PID1 init process binary. The latest version 0.76 was released in 2001 and is not actively developed anymore, but it's innovative design inspired some other popular init suites: notably [runit](#runit) and [s6](#s6).
+Also dubbed the Maxwell's equations of Unix process management and supervision<sup>([1](http://blog.darknedgy.net/technology/2015/09/05/0/))</sup>, the [daemontools](http://cr.yp.to/daemontools.html) suite was developed by cryptologist Daniel J. Bernstein in 1997<sup>([2](https://jdebp.eu/FGA/daemontools-family.html))</sup> as a completely new, modern approach to service management. daemontools is just a supervision suite and does not include any PID1 init process binary. The latest version 0.76 was released in 2001 and is not actively developed anymore, but it's innovative design inspired some other popular init suites: notably [runit](#runit) and [s6](#s6).
 
 **Common daemontools concepts:**
 
- * No pid-files used, ever. Supervisor communicates with the service directly, including starting, stopping, and sending signals.
+ * No PID-files used, ever. Supervisor communicates with the services directly, including starting, stopping, and sending signals.
  * Supervisor monitors and restarts services automatically if they die.
- * Services put their messages to stdout, which gets redirected to logfiles by the supervisor.
+ * Services write their messages to stdout, which gets redirected to logfiles by the supervisor.
  * In order to be supervised, service programs must run in foreground.  
-   This is common to all supervised init systems, including [systemd](#systemd)).
+  This is common to all supervised init systems, including [systemd](#systemd).
  * Service definitions are in simple "_run_" scripts.  
-   This can be as simple as a [single line to start nginx](https://github.com/cloux/aws-devuan/blob/master/etc/sv/nginx/run) webserver, up to a 15 lines needed to [start a PostgreSQL Cluster](https://github.com/cloux/aws-devuan/blob/master/etc/sv/postgresql/run). Compared to a [400-line nginx SysVinit initscript](https://github.com/JasonGiedymin/nginx-init-ubuntu/blob/master/nginx) full of ugly hacks like _wait_for_pid_, the one-liner for daemontools seems so unreal... but it works, and does exactly the same.
+  This can be as simple as a [single line to start nginx](https://github.com/cloux/aws-devuan/blob/master/etc/sv/nginx/run) webserver, up to a "heavy" 15 lines needed to [start a PostgreSQL Cluster](https://github.com/cloux/aws-devuan/blob/master/etc/sv/postgresql/run). Compared to a [400-line nginx SysVinit initscript](https://github.com/JasonGiedymin/nginx-init-ubuntu/blob/master/nginx) full of ugly hacks like _wait_for_pid_, the one-liner for daemontools seems so unreal... but it works, and it does exactly the same job.
 
 ---
 ---
@@ -237,7 +237,7 @@ Being the most universal and advanced init today, s6 should be a good fit for al
 
 is the newest and coolest init of the bunch. Since it's start in 2010, a lot has been written about systemd. It caused rants, heated discussions, divided communities, forked Linux distributions, local earthquakes and global warming. After all this mayhem, there is only one question left: "When should I use this, and when should I avoid it?" Let us learn something from the experiences of other developers, implementers and users. Here are few relevant quotes:
 
->"The complex systemd collection of services glues together formerly detached subsystems, adding a GUI around formerly modular tasks in order to analyze log files, manage sessions, control subsystems... My personal problem with systemd is that I just don't need any of this. For exmaple, systemd was not developed with DVD systems in mind: slow latency data is not meant to be used for parallelized system startup. At the end, about 5% of the time would be spend on reading data, and 95% on mechanical movement and latency. systemd tries to parallelize tasks as much as possible, and this is a real killer for slow systems."
+>"The complex systemd collection of services glues together formerly detached subsystems, adding a GUI around formerly modular tasks in order to analyze log files, manage sessions, control subsystems... My personal problem with systemd is that I just don't need any of this. For exmaple, systemd was not developed with DVD systems in mind: slow latency data is not meant to be used for parallelized system startup. At the end, about 5% of the time would be spent on reading data, and 95% on mechanical movement and latency. systemd tries to parallelize tasks as much as possible, and this is a real killer for slow systems."
 >
 ><cite> - Klaus [Knopper](http://www.knopper.net/index-en.html), author of [Knoppix](http://knoppix.net): presentation [video](https://youtu.be/lDXsw2ijRkw?t=1013) (Apr 2016)</cite>
 
@@ -247,7 +247,7 @@ As of now (2018), systemd positioned itself as the prime choice in all major dis
 >
 ><cite> - Darren Shepherd [announcing RancherOS](http://rancher.com/announcing-rancher-os)</cite>
 
-Some people argued, that systemd process is "[pretty minimal](https://lists.archlinux.org/pipermail/arch-general/2012-April/026317.html)". This might have been true in 2012. As of 2018, systemd version 236-2 PID1 binary is around 1.65 MB big. That is a lot of functionality, lot of complexity, and a lot of things that might go wrong. Compare that to 100x smaller, 14 kB binary of [runit](#runit), that is fulfilling the same basic task. systemd seems to integrate a lot of things that are not really necessary or justified to be a part of init system. Despite of this multitude of advanced [functionality](http://0pointer.de/blog/projects/why.html) (sometimes dubbed ["scope creep"](https://www.wikizero.com/en/Systemd#Criticism) by systemd's opponents), it is not the best fit for everything.
+Some people argued, that systemd process is "[pretty minimal](https://lists.archlinux.org/pipermail/arch-general/2012-April/026317.html)". This might have been true in 2012. As of 2018, my systemd version 236-2 PID1 binary is around 1.65 MB big. That is a lot of functionality, lot of complexity, and a lot of things that might go wrong. Compare that to 100x smaller, 14 kB binary of [runit](#runit), that performs the same basic task. systemd seems to integrate a lot of things that are not really necessary or justified to be a part of init system. Despite of this multitude of advanced [functionality](http://0pointer.de/blog/projects/why.html) (sometimes dubbed ["scope creep"](https://www.wikizero.com/en/Systemd#Criticism) by systemd's opponents), it is not the best fit for everything.
 
 The "marketing" claims about systemd and public reactions to it are very much reminiscent of the  "[Emperors new clothes](https://en.wikipedia.org/wiki/The_Emperor%27s_New_Clothes)" story. People who understand the systemd internals, recognize and comment on this situation:
 
@@ -265,7 +265,7 @@ only to refute himself later:
 >
 ><cite> - Lennart Poettering, [Revisiting How We Put Together Linux Systems](http://0pointer.net/blog/revisiting-how-we-put-together-linux-systems.html) (2014-09-01)</cite>
 
-He talks about a meeting, where systemd developers decided to integrate even software distribution and update mechanism directly into systemd. Why it's necessary to have all Linux distributions and all software updates locked onto a particular init system, remains unexplained. This universal plan towards a singular systemd/Linux distribution is further step from diversity to uniformity, marginalizing various needs of a large portion of the Linux user base.
+He talks about a meeting, where the systemd developers decided to integrate even software distribution and update mechanism directly into systemd. Why it's necessary to have the software management and updates locked onto a particular init system, remains unexplained. This universal plan towards a singular systemd/Linux distribution is further step from diversity to uniformity, marginalizing various needs of a large portion of the Linux user base.
 
 So, why every major distribution implemented systemd as the default (and many times the **only**) init system? While the official argument ["because everyone else does"](https://wiki.debian.org/Debate/initsystem/systemd#Why_Debian_should_default_to_systemd) became a self-fulfilling prophecy, the technical arguments, comparisons, and [concerned voices](https://wiki.debian.org/Debate/initsystem/sysvinit) remain unheard. By now, the attitude behind systemd is very clear: fall in line, or go [fork](https://guides.github.com/activities/forking/) yourself. Some forks are now gaining interest in the commercial world. After systemd kept causing financial lossess when twisted into a use case for which it was not designed, it had to be replaced:
 
@@ -286,7 +286,7 @@ So, why every major distribution implemented systemd as the default (and many ti
 **Cons:**
 
  * Many acclaimed engineers and experts pointed out basic design flaws
- * Developers have exceptionally [lame responses to security](https://www.theregister.co.uk/2017/07/28/black_hat_pwnie_awards/) issues
+ * systemd developers have exceptionally [lame responses to security](https://www.theregister.co.uk/2017/07/28/black_hat_pwnie_awards/) issues
  * Known to cause direct financial losses in datacenter environment
  * May cause further issues in systems not explicitly considered by the main developers
 
@@ -304,7 +304,7 @@ So, why every major distribution implemented systemd as the default (and many ti
  * Thin or embedded devices with limited hardware capabilities, like routers
  * Live CD/DVD media
 
-Reading the above pros/cons and recommended use of systemd, the same bulletpoints would fit well to another system: Microsuck Winblows. Which is not inherently a problem, if you incorporate this information into your decision process. If you have a non-technical friend, looking for a open-source remake for his PC or laptop, many distributions running systemd are a great start: [Ubuntu](https://www.ubuntu.com/desktop), [Solus](https://solus-project.com), [Zorin OS](https://zorinos.com)... all of them are very beautiful, full-featured modern desktops. Many users could even be easily fooled that this **is** a new version of Winblows (I tried, they are). Interesting is, that many experts looking at systemd are now also convinced that this **is** a new Winblows <sup>[1](https://skarnet.org/software/s6/systemd.html),[2](https://www.infoworld.com/article/2608870/linux/you-have-your-windows-in-my-linux.html),[3](http://www.zdnet.com/article/linus-torvalds-and-others-on-linuxs-systemd/)</sup>.
+Looking at the above pros/cons and recommended use of systemd, exactly the same bulletpoints would fit well to another system: Microsuck Winblows. Which is not inherently a problem, if you incorporate this information into your evaluation process. If you have a non-technical friend, looking for a open-source remake for his PC or laptop, many distributions running systemd are a great start: [Ubuntu](https://www.ubuntu.com/desktop), [Solus](https://solus-project.com), [Zorin OS](https://zorinos.com)... all of them are very beautiful, full-featured modern desktops. Many users could even be easily fooled that this **is** a new version of Winblows (I tried, they are). Interesting is, that many experts looking at systemd are now convinced that this **is** a new Winblows <sup>([1](https://skarnet.org/software/s6/systemd.html)),([2](https://www.infoworld.com/article/2608870/linux/you-have-your-windows-in-my-linux.html)),([3](http://www.zdnet.com/article/linus-torvalds-and-others-on-linuxs-systemd/))</sup>.
 
 ---
 ---
