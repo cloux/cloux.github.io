@@ -1,19 +1,19 @@
 
 ---
 
-Engineering better software systems. Outline the importance of basic architecture decisions: how to select building blocks for a stable server, efficiently run and maintain services, analyze and fix problems. View from a standpoint of a software engineer, administrator and a Linux user.
+Outline the importance of basic architecture decisions: how to select building blocks for a stable server, efficiently run and maintain services, analyze and fix problems. View from a standpoint of a software engineer, administrator and a Linux user.
 
-Summary of the main thoughts behind **AWS EC2 Devuan+Runit GNU/Linux**: **[https://github.com/cloux/aws-devuan](http://github.com/cloux/aws-devuan)**
+Summary of the ideas behind **AWS EC2 Devuan + Runit GNU/Linux**: **[https://github.com/cloux/aws-devuan](http://github.com/cloux/aws-devuan)**
 
 ---
 ## [Software Engineering vs. Development](engineering)
 
-What is the difference between an engineer and a developer? What is the most important part of any software project? What is "perfection", and how to achieve it? Simple answers to basic questions and another take on software project lifecycle.
+What is the difference between an engineer and a developer? What is the most important part of any software project? What is "perfection" and how to achieve it? Simple answers to basic questions, and another take on the software project lifecycle.
 
 ---
 ## [Init Systems - Overview](init)
 
-Short description and evaluation of some popular init systems: SysVinit, OpenRC, Daemontools family, and systemd. Includes quick explanation of basic differences, pros, cons and recommended use cases.
+Short description and evaluation of some popular init systems: [SysVinit](init/#sysvinit), [OpenRC](init/#openrc), [daemontools](init/#daemontools-family), [runit](init/#runit), [s6](init/#s6), and [systemd](init/#systemd). Includes quick explanation of basic differences, pros, cons and recommended use cases.
 
 ---
 

@@ -13,7 +13,7 @@ This is a quick overview of some popular [init systems](https://wikipedia.org/wi
 
 Init is the first process (PID1) started by the kernel, and continues running until the system is shut down. In other words, if it stops, for any reason, your system stops working with it. Every init system out there has to do a few important things: initialize system at boot, manage services while the system is running, and finally shutdown or reboot the system.
 
-Init commands were historically designed to run serially, in a sequence. Later as computer hardware became more powerful, software parallelization became necessary as the means of taking advantage of this trend (see [Amdahl's-Gustaffson's trend](https://software.intel.com/en-us/articles/amdahls-law-gustafsons-trend-and-the-performance-limits-of-parallel-applications) and limits of parallelization study). This trend was also applied to modern designs of init systems. Unfortuantely, absolute boot parallelization is impossible due to dependencies. Some tasks cannot be started, unless others finished. A logfile cannot be written until the filesystem is mounted, the filesystem cannot be mounted until it was checked for errors, filesytems cannot be checked until all devices are available... Thus it was necessary to define and implement these relations, adding some code overhead and complexity to init...
+Init commands were historically designed to run serially, in a sequence. Later as computer hardware became more powerful, software parallelization became necessary as the means of taking advantage of this trend (see [Amdahl's-Gustaffson's trend](https://software.intel.com/en-us/articles/amdahls-law-gustafsons-trend-and-the-performance-limits-of-parallel-applications) and limits of parallelization study). This trend was also applied to modern designs of init systems. Unfortuantely, absolute boot parallelization is impossible due to dependencies. Some tasks cannot be started, unless others finished. A logfile cannot be written until the filesystem is mounted, the filesystem cannot be mounted until it was checked for errors, filesytems cannot be checked until all devices are available... 
 
 Running computer tasks in parallel is generally much more complicated than simple serial execution. It is something that operating systems were designed to do, and even they used to suck at it. And when these tasks depend on each others results, the problem gets even harder and the solution more complex. For modern, powerful systems where boot speed is absolutely crucial and has even higher priority than stability or reliability, a parallel boot stage should definitely be considered. How big speedup are we talking about? A combined serial-parallel boot of [runit](#runit) on a slow single-CPU core was measured at [around 5 seconds](https://github.com/cloux/aws-devuan#ec2-linux-ami-comparison). If you need to boot faster, you might need a heavily parallelized init like [systemd](#systemd) on a multi-core CPU system. All approaches have advantages and disadvantages:
 
@@ -159,36 +159,38 @@ Also dubbed the Maxwell's equations of Unix process management and supervision<s
 >
 ><cite>Joshua Timberman, "[Process Supervision: Solved Problem](http://jtimberman.housepub.org/blog/2012/12/29/process-supervision-solved-problem/)" (2012-12)
 
-runit design directly resembles the three main "lifetime" stages of a running computer: **booting**, **running**, and **shutdown**, which are represented by three scripts named _1_,_2_ and _3_ placed in _/etc/runit/_. The first **boot** stage runs all commands sequentially, while the second **running** stage starts the service supervisor which runs services in parallel. The third **shutdown** stage runs sequentially again. The first boot stage can directly replace initrd
+runit design directly resembles the three main "lifetime" stages of a computer: **booting**, **running**, and **shutdown**, which are represented by three scripts named _1_,_2_ and _3_ placed in _/etc/runit/_. The first _boot_ stage runs all commands sequentially. The second _running_ stage just starts the service supervisor, which runs services in parallel. The third _shutdown_ stage runs everything sequentially again.
 
-In the early boot, the command dependencies are heavy. Sequential execution offers stability, easy configurability and maintenance, while the speed sacrifice compared to a parallel boot stage is usually very low. In the supervised running stage, where service dependencies are less critical, everything is run in parallel. This serial-parallel design compromise strikes a good balance between sequential and parallel startup, offering sufficient system for many use cases. The supervisor program might optionally manage services in groups, also called "runlevels". This is different from [SysVinit](#sysvinit), where the runlevels are predefined for all stages.
+In the early boot, the command dependencies are heavy, very little can be done in parallel. Here the sequential execution offers stability, easy configurability and maintenance, while the speed sacrifice compared to a parallel boot is very low. The boot stage of runit can even fully initialize the system and completely replace [initrd](https://www.kernel.org/doc/html/v4.12/admin-guide/initrd.html). This direct initrd-free boot offers additional speedup and configuration flexibility, and this is exactly how the [Devuan+Runit for AWS EC2](https://github.com/cloux/aws-devuan) is built.
 
-For logfile management, the [svlogd](http://smarden.org/runit/svlogd.8.html) is provided. This simple program takes data from services stdout, writes it to files and optionally rotates the files. Pattern matching<sup>([1](http://smarden.org/runit/svlogd.8.html#sect7))</sup> uses it's own limited syntax, inferior to the [s6-log](https://skarnet.org/software/s6/s6-log.html) filter from the [s6](#s6) suite with full POSIX regex support.
+In the second supervised running stage, where service dependencies are less prominent, everything is simply run in parallel. This serial-boot/parallel-supervision design strikes a good balance between simplicity and resource usage, offering sufficient system for many use cases. The supervisor program might optionally manage services in groups, also called "runlevels". This is different from [SysVinit](#sysvinit), where the runlevels are predefined for all stages.
 
 runit works very well with symlinks and resolves them properly. This allows for some tricks in service definitions, like implementation of agetty-1..6 just symlinked to [agetty-generic](https://github.com/cloux/aws-devuan/tree/master/etc/sv/agetty-generic). runit's supervisor control `sv` also understands when it is symlinked in place of an initscript, e.g.:
 
 `mv /etc/init.d/mysql /etc/init.d/mysql.orig; ln -s /usr/bin/sv /etc/init.d/mysql`
 
-then running `/etc/init.d/mysql start` works! This means perfect backward compatibility with initscripts. `sv` also supports service names or full service paths, which allows for unique simplicity. Even using tricks like glob matching is allowed: `sv stop /etc/service/agetty*` is a valid command, stopping all supervised _agetty_ services. Another use case:
+then running `/etc/init.d/mysql start` works! This means perfect backward compatibility with initscripts. `sv` also supports service names or full service paths, which allows for unique simplicity. Even using tricks like glob matching is allowed:  
+`sv stop /etc/service/agetty*` is a valid command, stopping all supervised _agetty_ services. Another use case:
 
 **How to quickly find services that should be running, but refuse to start?**
 
 `sv status /etc/service/* | grep 'want up'`
 
-That's it. Simple. Even better, you can use just 's' instead of 'status', so `sv s /etc/service/*` works just fine.
+That's it. Simple. Even better, you can just use 's' instead of 'status', so `sv s /etc/service/*` works just fine.
 
-How would you do that in SysVinit? Since it's not supervised, it is impossible to do it directly. Indirectly it could be done, but a huge, ugly, bloated workaround would be necessary, like for everything else in SysVinit. The [systemd](#systemd) wrapper command `service --status-all` could be used, but it shows status for all installed services, regardless if they are active in current runlevel or not... In systemd you can see all services that should start at boot: `systemctl list-unit-files --state=enabled`, services either running or exited: `systemctl list-units --type=service | grep active`... but still, none of them really shows what I want to see. Maybe there is a command for it, but google can't seem to find it.
+How would you do that in SysVinit? Since it's not supervised, it is impossible to do it directly. It could be done, but a huge, ugly, bloated workaround would be necessary, like for everything else in SysVinit. The [systemd](#systemd) wrapper command `service --status-all` could be used, but it shows status for all installed services, regardless if they are active in current runlevel or not. In systemd you can see all services that should start at boot: `systemctl list-unit-files --state=enabled`, services either running or exited: `systemctl list-units --type=service | grep active`... but still, none of them really shows what I want to see. Maybe there is a command for it, but google can't seem to find it.
 
 
 **Pros:**
 
  * Complete init including PID1 binary, service supervisor, and logging subsystem
  * Simple to setup, configure, and maintain
+ * Easy to learn and understand command syntax
 
 **Cons:**
 
  * Only basic, indirect support for service dependencies
- * Weird _svlogd_ service logger configuration
+ * Weird [svlogd](http://smarden.org/runit/svlogd.8.html) logger filter configuration syntax<sup>([1](http://smarden.org/runit/svlogd.8.html#sect7))</sup>
 
 **Recommended use:**
 
@@ -212,13 +214,13 @@ The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s
 
 **Pros:**
 
- * Complete init system: PID1 binary, service supervisor, advanced logging
- * Actively maintained and continuously expanded<sup>([3](https://git.skarnet.org/cgi-bin/cgit.cgi/s6/))</sup>
+ * Complete init system: PID1 binary, service supervisor, advanced logging with regex filter support<sup>([3](https://skarnet.org/software/s6/s6-log.html))</sup>
+ * Actively maintained and continuously expanded<sup>([4](https://git.skarnet.org/cgi-bin/cgit.cgi/s6/))</sup>
  * Lots of features
  
 **Cons:**
 
- * More complex system, steeper learning curve compared to [runit](#runit)
+ * More complex system, steeper learning curve compared to runit
  * Unusual service control commands, uses `-wu` instead of `start`, `-wd` instead of `down`...
 
 **Recommended use:**
