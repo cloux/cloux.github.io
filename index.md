@@ -1,3 +1,6 @@
+
+---
+
 Engineering better software systems. Outline the importance of basic architecture decisions: how to select building blocks for a stable server, efficiently run and maintain services, analyze and fix problems. View from a standpoint of a software engineer, administrator and a Linux user.
 
 Summary of the main thoughts behind **AWS EC2 Devuan+Runit GNU/Linux**: **[https://github.com/cloux/aws-devuan](http://github.com/cloux/aws-devuan)**
