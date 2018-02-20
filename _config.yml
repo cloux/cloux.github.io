@@ -1,3 +1,9 @@
 theme: jekyll-theme-primer
 title: Linux Engineering
-description: Building a stable Linux server
+description: Building a stable server on Amazon EC2
+url: "https://cloux.github.io"
+author: cloux@rote.ch
+plugins:
+ - jekyll-seo-tag 
+ - jekyll-sitemap
+github: [metadata]
