@@ -217,11 +217,11 @@ The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s
 **Cons:**
 
  * More complex system, steeper learning curve compared to [runit](#runit)
- * Unusual service control commands, uses `-wu` instead of `start,` `-wd` instead of `down`...
+ * Unusual service control commands, uses `-wu` instead of `start`, `-wd` instead of `down`...
 
 **Recommended use:**
 
- * New general-purpose Linux distributions ()
+ * New general-purpose Linux distributions
  * Critical infrastructure
  * When stable, secure design together with advanced features are required
 
