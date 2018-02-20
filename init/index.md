@@ -1,3 +1,5 @@
+
+---
 <a href="https://devuan.org/os/init-freedom/"><img src="if.png" align="right" style="padding:30px;"></a>
 # Init systems - overview
 
@@ -206,7 +208,7 @@ Used as default by [VOID](https://www.voidlinux.eu), [Dragora](http://www.dragor
 ---
 ## s6 
  
-The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s**uite" (s6) is being developed by a single engineer - Laurent Bercot, and is the most advanced init in the daemontools family. Powerful functionality, in a relatively small amount of code. Consists of more than 60 (sixty) commands and libraries for system initialization, service supervision, dependency management, inter-process synchronization, access control, privilege gain, advanced logging, and then some<sup>([1](https://skarnet.org/software/s6/index.html))</sup>. If you can think of it, s6 has it. Even features you don't really need, like socket activation: "It's important to realize that you don't need socket activation. It's a marketing word used by systemd advocates that mixes a couple useful architecture concepts and several horrible ideas, for a very minor speed benefit"<sup>([2](https://skarnet.org/software/s6/socket-activation.html))</sup>. This is a bold statement, the author doesn't try to sell you on anything. You are not required to use all the features of s6, nothing is forced upon you. All commands and libraries are fairly independent, can be used separately and easily combined with other init systems. The s6 is actively maintained project, developed by a single engineer - Laurent Bercot. 
+The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s**uite" (s6) is being developed by a single engineer - Laurent Bercot, and is the most advanced init in the daemontools family. Powerful functionality, in a relatively small amount of code. Consists of more than 60 (sixty) commands and libraries for system initialization, service supervision, dependency management, inter-process synchronization, access control, privilege gain, advanced logging, and then some<sup>([1](https://skarnet.org/software/s6/index.html))</sup>. If you can think of it, s6 has it. Even features you don't really need, like socket activation: "It's important to realize that you don't need socket activation. It's a marketing word used by systemd advocates that mixes a couple useful architecture concepts and several horrible ideas, for a very minor speed benefit"<sup>([2](https://skarnet.org/software/s6/socket-activation.html))</sup>. This is a bold statement, the author doesn't try to sell you on anything. You are not required to use all the features of s6, nothing is forced upon you. All commands and libraries are fairly independent, can be used separately and easily combined with other init systems.
 
 **Pros:**
 
