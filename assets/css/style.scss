@@ -11,6 +11,16 @@ body {
 	background-color: transparent;
 }
 
+body h1 a {
+	color: #404040;
+	text-shadow: 1px 1px 1px #123C6B;
+}
+
+body h1 a:hover {
+	color: #000000;
+	text-decoration: none;
+}
+
 a {
 	color: #3171A7;
 }
