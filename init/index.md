@@ -81,7 +81,7 @@ The point is, that all this complexity, extensions, and hacks are in place just 
 
  * Known to be stable, and not "getting in your way"
  * Well known, documented, and supported
- * lot of community help
+ * Lots of community help
 
 **Cons:**
 
@@ -285,7 +285,7 @@ So, why every major distribution implemented systemd as the default (and many ti
  * Systemd is actively maintained live project
  * Backed by a big stable software company
  * Used as default by all major distributions
- * Lot of community and commercial support
+ * Lots of community and commercial support
  * Lots of features
  
 **Cons:**
