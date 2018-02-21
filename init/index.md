@@ -19,9 +19,9 @@ Running computer tasks in parallel is generally much more complicated than simpl
 
 **Advantages of sequential init:**
 
- * stable
- * easy to follow and understand what's going on, easy to debug
- * good fit for less powerful hardware, embedded, single-CPUs, LiveCD media
+ * Stable
+ * Easy to follow and understand what's going on, easy to debug
+ * Good fit for less powerful hardware, embedded, single-CPUs, LiveCD media
 
 **Disadvantages of sequential init:**
 
@@ -30,12 +30,12 @@ Running computer tasks in parallel is generally much more complicated than simpl
 
 **Advantages of parallel init:**
 
- * In theory, tasks finish sooner when run in parallel, so you **should** get faster boot time.
+ * In theory tasks finish sooner when run in parallel, so you **should** get faster boot time.
 
 **Disadvantages of parallel init:**
 
- * On some systems, like single-CPU virtual machines or embedded systems, there is mostly no visible speed gain, since nothing truly runs in parallel. Processes might even finish slightly slower, due to enforced [context switching](https://en.wikipedia.org/wiki/Context_switch).
- * On some systems, parallel boot might cause a serious slowdown. This is true for example when booting from sequential media, like live CD/DVDs. See [Knoppix presentation video](https://youtu.be/lDXsw2ijRkw?t=1013).
+ * On some systems like single-CPU virtual machines or embedded systems, there is mostly no visible speed gain, since nothing truly runs in parallel. Processes might even finish slightly slower due to enforced [context switching](https://en.wikipedia.org/wiki/Context_switch).
+ * On some systems parallel boot might cause a serious slowdown. This is true for example when booting from sequential media like live CD/DVDs. See [Knoppix presentation video](https://youtu.be/lDXsw2ijRkw?t=1013).
 
 The "lifetime" of a running computer can be divided into three stages: **booting**, **running** and **shutdown**. Every init system implements these stages differently, with different level of parallelization.
 
@@ -43,7 +43,7 @@ The "lifetime" of a running computer can be divided into three stages: **booting
 
 This is the first and most important stage, started immediately after kernel finishes loading. It has to be stable and flexible enough, so the system **always** starts up. Changes like new network cards or damaged filesystems have to be recognized and dealt with. To make it more stable, and for other reasons, this whole thing might be packed into an initrd image file.
 
-Usually, the process is pretty straightforward. Make sure _/dev/_ path is populated, all drives are mounted, and system is ready to start applications. Optionally, log what it's going on so the user can repair potential issues. If anything fails, provide an emergency shell to the user. Some modern init systems try to run tasks in this phase in parallel, others decided to keep the boot stage sequential.
+Usually the process is pretty straightforward. Make sure _/dev/_ path is populated, all drives are mounted and system is ready to start applications. Optionally log what it's going on so the user can repair potential issues. If anything fails, provide an emergency shell to the user. Some modern init systems ([systemd](#systemd)) run tasks in this stage in parallel, others ([runit](#runit)) decided to keep the boot sequential.
 
 #### Running
 
@@ -85,9 +85,9 @@ The point is, that all this complexity, extensions, and hacks are in place just 
 
 **Cons:**
 
- * Old, deprecated design compared to any other init out there
- * Counting all workarounds, it's unnecessarily complex for what it actually does
- * Services need to implement [bloated, ugly, and frustrating](http://www.safe-mbox.com/~rgooch/linux/boot-scripts/) initscripts, each reimplementing management commands as parameters: _start_, _stop_, _restart_, _reload_... reinventing the wheel at it's best
+ * Old deprecated design compared to any other init out there
+ * Counting all workarounds, it is unnecessarily complex for what it actually does
+ * Services need to implement [bloated, ugly, and frustrating](http://www.safe-mbox.com/~rgooch/linux/boot-scripts/) initscripts, each reinventing the wheel and implementing the same management commands: _start_, _stop_, _restart_, _reload_ etc.
 
 **Recommended use:**
 
@@ -100,15 +100,15 @@ The point is, that all this complexity, extensions, and hacks are in place just 
  * New GNU/Linux distributions
  * Modern systems where speed has priority
 
-SysVinit shows it's age, but there are kludgy workarounds available for almost anything. It is hardly recommended for a modern Linux distribution, but does well in older distros and on less powerful hardware. Linux SysVinit is still (as of 2018) used as default by [PCLinuxOS](http://www.pclinuxos.com), [Antix](http://antix.mepis.org), [Slackware](http://www.slackware.com), [Devuan](https://devuan.org), [Refracta](http://www.ibiblio.org/refracta/) and others.
+SysVinit shows its age, but there are kludgy workarounds available for almost anything. It is hardly recommended for a modern Linux distribution, but does well in older distros and on less powerful hardware. Linux SysVinit is still (as of 2018) used as default by [PCLinuxOS](http://www.pclinuxos.com), [Antix](http://antix.mepis.org), [Slackware](http://www.slackware.com), [Devuan](https://devuan.org), [Refracta](http://www.ibiblio.org/refracta/) and others.
 
 ---
 ---
 ## OpenRC
 
-Developed as [Gentoo](https://wiki.gentoo.org/wiki/OpenRC) project, OpenRC was not designed as complete init replacement, but only a dependency-based rc (run command) that works with the init program that is provided by the system<sup>([1](https://wiki.gentoo.org/wiki/OpenRC/Baselayout_1_to_2_migration#What_is_OpenRC.3F))</sup>. It works well in conjunction with the old SysVinit, addressing some of its weaknesses, while using it's widely available initscripts. [openrc-run](http://manpages.org/openrc-run/8) also provides its own interface to commands and daemons.
+Developed as [Gentoo](https://wiki.gentoo.org/wiki/OpenRC) project, OpenRC was not designed as complete init replacement, but only a dependency-based rc (run command) that works with the init program that is provided by the system<sup>([1](https://wiki.gentoo.org/wiki/OpenRC/Baselayout_1_to_2_migration#What_is_OpenRC.3F))</sup>. It works well in conjunction with the old SysVinit, addressing some of its weaknesses while using it's widely available initscripts. [openrc-run](http://manpages.org/openrc-run/8) also provides its own interface to commands and daemons.
 
-Similar to the [daemontools](#daemontools-family) family, OpenRC supports custom named runlevels, defined simply as directories living in _/etc/runlevels_. This is a clear improvement over SysVinit with predefined runlevels. Process _supervision_ however does not seem to be a part of OpenRC's design. It's done with some dirty and less dirty hacks which involve managing PID files to be able to start/stop processes when necessary. Current process management implementation _start-stop-daemon_ uses this scheme with some known flaws like positive false PID acquisition<sup>([2](https://wiki.gentoo.org/wiki/Process-Supervision#Rationale))</sup>. This approach has the same issues as the old SysVinit scheme. Alternatively, a foreign supervisor like _runit_ or _s6_<sup>([3](https://github.com/OpenRC/openrc/blob/master/s6-guide.md))</sup> can be used, or you can develop your own supervision<sup>([4](https://wiki.gentoo.org/wiki/Process-Supervision#OpenRC_supervision_backend))</sup>. There are attempts to make a native service supervision for OpenRC, like the [supervise-daemon](https://github.com/OpenRC/openrc/blob/master/supervise-daemon-guide.md), but this requires special, customized initscripts that do not allow the daemon to fork... 
+Similar to the [daemontools](#daemontools-family) family, OpenRC supports custom named runlevels defined simply as directories living in _/etc/runlevels_. This is a clear improvement over SysVinit with static predefined runlevels. Process _supervision_ however does not seem to be a part of OpenRC's design. It's done with some dirty and less dirty hacks which involve managing PID files to be able to start/stop processes when necessary. Current process management implementation _start-stop-daemon_ uses this scheme with some known flaws like positive false PID acquisition<sup>([2](https://wiki.gentoo.org/wiki/Process-Supervision#Rationale))</sup>. This approach has the same issues as the old SysVinit scheme. Alternatively, a foreign supervisor like _runit_ or _s6_<sup>([3](https://github.com/OpenRC/openrc/blob/master/s6-guide.md))</sup> can be used, or you can develop your own supervision<sup>([4](https://wiki.gentoo.org/wiki/Process-Supervision#OpenRC_supervision_backend))</sup>. There are attempts to make a native service supervision for OpenRC like the [supervise-daemon](https://github.com/OpenRC/openrc/blob/master/supervise-daemon-guide.md), but this requires special, customized initscripts that do not allow the daemon to fork... 
 
 While you could use [s6](#s6) or [runit](#runit) together with OpenRC, the real question is: why then keep OpenRC and complicate things, when both _s6_ and _runit_ already offer complete init systems?
 
@@ -139,11 +139,11 @@ While not designed as complete full-featured init system, OpenRC provides an eas
 ---
 ## Daemontools Family
 
-Also dubbed the Maxwell's equations of Unix process management and supervision<sup>([1](http://blog.darknedgy.net/technology/2015/09/05/0/))</sup>, the [daemontools](http://cr.yp.to/daemontools.html) suite was developed by cryptologist Daniel J. Bernstein in 1997<sup>([2](https://jdebp.eu/FGA/daemontools-family.html))</sup> as a completely new, modern approach to service management. daemontools is just a supervision suite and does not include any PID1 init process binary. The latest version 0.76 was released in 2001 and is not actively developed anymore, but it's innovative design inspired some other popular init suites: notably [runit](#runit) and [s6](#s6).
+Also dubbed the Maxwell's equations of Unix process supervision<sup>([1](http://blog.darknedgy.net/technology/2015/09/05/0/))</sup>, the [daemontools](http://cr.yp.to/daemontools.html) suite was developed by cryptologist Daniel J. Bernstein in 1997<sup>([2](https://jdebp.eu/FGA/daemontools-family.html))</sup> as a completely new, modern approach to service management. daemontools is just a supervision suite and does not include any PID1 init process binary. The latest version 0.76 was released in 2001 and is not actively developed anymore, but its innovative design inspired some other popular init suites: notably [runit](#runit) and [s6](#s6).
 
 **Common daemontools concepts:**
 
- * No PID-files used, ever. Supervisor communicates with the services directly, including starting, stopping, and sending signals.
+ * No PID-files used, ever. Supervisor communicates with the services directly, including starting, stopping and sending signals.
  * Supervisor monitors and restarts services automatically if they die.
  * Services write their messages to stdout, which gets redirected to logfiles by the supervisor.
  * In order to be supervised, service programs must run in foreground.  
@@ -178,13 +178,13 @@ then running `/etc/init.d/mysql start` works! This means perfect backward compat
 
 That's it. Simple. Even better, you can just use 's' instead of 'status', so `sv s /etc/service/*` works just fine.
 
-How would you do that in SysVinit? Since it's not supervised, it is impossible to do it directly. It could be done, but a huge, ugly, bloated workaround would be necessary, like for everything else in SysVinit. The [systemd](#systemd) wrapper command `service --status-all` could be used, but it shows status for all installed services, regardless if they are active in current runlevel or not. In systemd you can see all services that should start at boot: `systemctl list-unit-files --state=enabled`, services either running or exited: `systemctl list-units --type=service | grep active`... but still, none of them really shows what I want to see. Maybe there is a command for it, but google can't seem to find it.
+How would you do that in SysVinit? Since it's not supervised it is impossible to do it directly. It could be done, but a huge, ugly, bloated workaround would be necessary, like for everything else in SysVinit. The [systemd](#systemd) wrapper command `service --status-all` could be used, but it shows status for all installed services, regardless if they are active in current runlevel or not. In systemd you can see all services that should start at boot: `systemctl list-unit-files --state=enabled`, services either running or exited: `systemctl list-units --type=service | grep active`... but still, none of them really shows what I want to see. Maybe there is a command for it, but google can't seem to find it.
 
 
 **Pros:**
 
- * Complete init including PID1 binary, service supervisor, and logging subsystem
- * Simple to setup, configure, and maintain
+ * Complete init including PID1 binary, service supervisor and logging subsystem
+ * Simple to setup, configure and maintain
  * Easy to learn and understand command syntax
 
 **Cons:**
@@ -194,10 +194,11 @@ How would you do that in SysVinit? Since it's not supervised, it is impossible t
 
 **Recommended use:**
 
- * Critical systems with high priority for security, reliability, and stability
+ * Critical systems with high priority for security, reliability and stability
  * Init replacement in existing systems
  * New distributions
  * Embedded systems
+ * Servers
  
 **NOT recommended use:**
 
@@ -221,12 +222,12 @@ The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s
 **Cons:**
 
  * More complex system, steeper learning curve compared to runit
- * Unusual service control commands, uses `-wu` instead of `start`, `-wd` instead of `down`...
+ * Unusual service control commands: uses `-wu` instead of `start`, `-wd` instead of `down`...
 
 **Recommended use:**
 
  * New general-purpose Linux distributions
- * Critical infrastructure
+ * Critical infrastructure, servers
  * When stable, secure design together with advanced features are required
 
 **NOT recommended:**
@@ -281,8 +282,8 @@ So, why every major distribution implemented systemd as the default (and many ti
 
 **Pros:**
 
- * Systemd is actively maintained, live project
- * Backed by a big, stable software company
+ * Systemd is actively maintained live project
+ * Backed by a big stable software company
  * Used as default by all major distributions
  * Lot of community and commercial support
  * Lots of features
