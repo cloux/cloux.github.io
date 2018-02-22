@@ -94,7 +94,7 @@ In a _software developer_ training, you learn how to use a programming language 
 
 #### Engineer education
 
-Some developer training is always a part of software engineering education. Later it's expanded. Instead of just implementing a given solution, you are given a problem to _solve_. You are expected to _analyze_ the problem and _find_ a solution first, before you proceed with _implementation_. If you studied engineering of any sort, or wrote any academic paper, you know that there is a certain procedure that has to be followed. What is the problem you are trying to solve? What other solutions are available? What properties do they have? Why is your solution necessary, wouldn't something else be better? To proceed without answering these questions will surely make you fail. It is not good enough to say what path did you choose, you have to _explain_ why that makes sense.
+Some developer training is always a part of software engineering education. Later it's expanded. Instead of just implementing a given solution, you are given a problem to _solve_. You are expected to _analyze_ the problem and _find_ a solution first, before you proceed with _implementation_. If you studied engineering of any sort, or wrote any academic paper, you know that there are certain questions you have to answer first. What is the problem you are trying to solve? What other solutions are available? What properties do they have? Why is your solution necessary, wouldn't something else be better? To proceed with implementation without answering these questions will surely make you fail. It is not good enough to say what path did you choose, you have to _explain_ why that makes sense.
 
 ## Conclusion
 
@@ -110,5 +110,5 @@ To illustrate the main difference between **software engineering** and **develop
 
 <a href="https://creativecommons.org/licenses/by/4.0/"><img src="../cc-by.png" align="right" style="padding:30px;"></a><br>
 <p class="footer">
-cloux@rote.ch (2018)
+cloux@rote.ch (2018-02)
 </p>

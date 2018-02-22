@@ -3,7 +3,7 @@
 <a href="https://devuan.org/os/init-freedom/"><img src="if.png" align="right" style="padding:30px;"></a>
 # Init systems - overview
 
-This is a quick overview of some popular [init systems](https://wikipedia.org/wiki/Init), not a complete documentation of all their features. Init systems not being actively used in current distributions were left out. Implementation details are omitted, things are simplified and generalized, sometimes at the expense of accuracy. This is deliberate, in order to keep this as readable as possible by normal users and administrators. The goal is to show main differences in the basic concepts, highlights, drawbacks, and use cases.
+This is a quick overview of some popular [init systems](https://wikipedia.org/wiki/Init), not a complete documentation of all their features. Init systems, not being actively used in current distributions, were left out. Implementation details are omitted, things are simplified and generalized, sometimes at the expense of accuracy. This is deliberate, in order to keep this as readable as possible for normal users and administrators. The goal is to show main differences in the basic concepts, point out highlights, drawbacks, and [use cases](https://en.wikipedia.org/wiki/Use_case).
 
 ### About init
 
@@ -11,11 +11,11 @@ This is a quick overview of some popular [init systems](https://wikipedia.org/wi
 >
 ><cite> - Jim Kinney, DragonCon 2015, [video](https://youtu.be/5CKW06TaEVk?t=132)</cite>
 
-Init is the first process (PID1) started by the kernel, and continues running until the system is shut down. In other words, if it stops, for any reason, your system stops working with it. Every init system out there has to do a few important things: initialize system at boot, manage services while the system is running, and finally shutdown or reboot the system.
+Init is the first process (PID1) started by the kernel and continues to run until the system is shut down. In other words, if it stops for any reason, your system stops working with it. Every init system out there has to do a few important things: initialize system at boot, manage services while the system is running, and finally shutdown or reboot the system.
 
-Init commands were historically designed to run serially, in a sequence. Later as computer hardware became more powerful, software parallelization became necessary as the means of taking advantage of this trend (see [Amdahl's-Gustaffson's trend](https://software.intel.com/en-us/articles/amdahls-law-gustafsons-trend-and-the-performance-limits-of-parallel-applications) and limits of parallelization study). This trend was also applied to modern designs of init systems. Unfortuantely, absolute boot parallelization is impossible due to dependencies. Some tasks cannot be started, unless others finished. A logfile cannot be written until the filesystem is mounted, the filesystem cannot be mounted until it was checked for errors, filesytems cannot be checked until all devices are available... 
+Init commands were historically designed to run serially, in a sequence. Later on as computer hardware became more powerful, software parallelization became necessary as the means of taking advantage of this trend (see [Amdahl's-Gustaffson's trend](https://software.intel.com/en-us/articles/amdahls-law-gustafsons-trend-and-the-performance-limits-of-parallel-applications) and limits of parallelization study). This trend was also applied to modern designs of init systems. Unfortuantely, absolute boot parallelization is impossible due to dependencies. Some tasks cannot be started unless others are finished. A logfile cannot be written until the filesystem is mounted, the filesystem cannot be mounted until it was checked for errors, filesytems cannot be checked until all devices are available etc.
 
-Running computer tasks in parallel is generally much more complicated than simple serial execution. It is something that operating systems were designed to do, and even they used to suck at it. And when these tasks depend on each others results, the problem gets even harder and the solution more complex. For modern, powerful systems where boot speed is absolutely crucial and has even higher priority than stability or reliability, a parallel boot stage should definitely be considered. How big speedup are we talking about? A combined serial-parallel boot of [runit](#runit) on a slow single-CPU core was measured at [around 5 seconds](https://github.com/cloux/aws-devuan#ec2-linux-ami-comparison). If you need to boot faster, you might need a heavily parallelized init like [systemd](#systemd) on a multi-core CPU system. All approaches have advantages and disadvantages:
+Running computer tasks in parallel is generally much more complicated than simple serial execution. It is something that operating systems were designed to do and even they used to suck at it. And when these tasks depend on each others result's, the problem gets even trickier and the solution more complex. For modern, powerful systems, where boot speed is absolutely crucial and has even higher priority than stability or reliability, a parallel boot stage should definitely be considered. How big speedup are we talking about? A combined serial-parallel boot of [runit](#runit) on a slow single-CPU core was measured at [around 5 seconds](https://github.com/cloux/aws-devuan#ec2-linux-ami-comparison). If you need to boot faster, you might need a heavily parallelized init like [systemd](#systemd) on a multi-core CPU system. All approaches have advantages and disadvantages:
 
 **Advantages of sequential init:**
 
@@ -26,7 +26,7 @@ Running computer tasks in parallel is generally much more complicated than simpl
 **Disadvantages of sequential init:**
 
  * Slow, not leveraging the power of modern hardware
- * Slow in some corner cases, like when several filesystems require [fsck](https://en.wikipedia.org/wiki/Fsck) at boot
+ * Slow in some [corner](https://en.wikipedia.org/wiki/Corner_case) cases, like when several filesystems require [fsck](https://en.wikipedia.org/wiki/Fsck) at boot
 
 **Advantages of parallel init:**
 
@@ -41,17 +41,17 @@ The "lifetime" of a running computer can be divided into three stages: **booting
 
 #### Boot initialization
 
-This is the first and most important stage, started immediately after kernel finishes loading. It has to be stable and flexible enough, so the system **always** starts up. Changes like new network cards or damaged filesystems have to be recognized and dealt with. To make it more stable, and for other reasons, this whole thing might be packed into an initrd image file.
+This is the first and most important stage, starting immediately after kernel finishes loading. It has to be stable and flexible enough, so the system **always** starts up. Changes like new network cards or damaged filesystems have to be recognized and dealt with. To make it more stable, and for other reasons, this whole thing might be packed into an initrd image file.
 
 Usually the process is pretty straightforward. Make sure _/dev/_ path is populated, all drives are mounted and system is ready to start applications. Optionally log what it's going on so the user can repair potential issues. If anything fails, provide an emergency shell to the user. Some modern init systems ([systemd](#systemd)) run tasks in this stage in parallel, others ([runit](#runit)) decided to keep the boot sequential.
 
 #### Running
 
-Management of all services and user interaction with the system normally happens here. This stage is always implemented as parallel, services and userspace programs run concurrently. Some services might depend on another services to be started first.
+Management of all services and user interaction with the system usually happens here. This stage is always implemented as parallel, services and userspace programs run concurrently. Some services might depend on another services to be started first.
 
 #### Shutdown
 
-Logout clients, stop all services, flush data, unmount drives, and powerdown or reboot. This is farily straightforward process, rarely considered as time critical. Example are servers: when the "downtime" (shutdown system + perform maintenance tasks + start system) has to be as short as possible, both start **and** shutdown stages should be optimized for speed.
+Logout clients, stop all services, flush data, unmount drives, and powerdown or reboot. This is fairly straightforward process, rarely considered as time critical. Example are servers: when the "downtime" (shutdown system + perform maintenance tasks + start system) has to be as short as possible, both start **and** shutdown stages should be optimized for speed.
 
 ---
 ---
@@ -61,13 +61,13 @@ With architecture design reaching back to the year 1983, this oldtimer needs no 
 
 ### Runlevels
 
-Runlevel is a SysVinit stage, where a defined group of tasks will be started or stopped. Switching between these runlevels is done automatically by the system, or manually by the user. In theory, SysVinit supports eleven runlevels: 0123456789S. Usually only eight are being actively used: 0123456S. Of those eight, some are mostly used together. So in practice, SysVinit is used as a three level system:
+Runlevel is a SysVinit stage, where a defined group of tasks will be started or stopped. Switching between these runlevels is done automatically by the system or manually by the user. In theory, SysVinit supports eleven runlevels: 0123456789S. Usually only eight are being actively used: 0123456S. Some of those eight are mostly used together. So in practice, SysVinit is used as a three level system:
 
  * Runlevel 1,S - Booting
  * Runlevel 2-5 - Running
  * Runlevel 6,0 - Reboot and Shutdown
 
-To add/remove services to/from these runlevels, the services initscripts in _/etc/init.d/_ have to be symlinked into _/etc/rc{runlevel}.d/_ directories. In each runlevel, services can be set to start or stop. This is defined by the symlink name: 'S' for starting and 'K' for killing the service. And since they are always started serially, the symlink name also defines the startup order... This gets easily very confusing. To make this incomprehensible linking system manageable, additional programs are needed. This includes stuff like _update-rc.d_, _invoke-rc.d_, _sysv-rc-conf_, [hideous and kludgy](http://skarnet.org/software/s6/overview.html) _start-stop-daemon_, and workarounds like _insserv_ and _startpar_ for starting some [services in parallel](https://wiki.debian.org/BootProcessSpeedup#Parallelizing_init.d_scripts) despite the SysVinit's sequential nature...
+To add/remove services to/from these runlevels, the services initscripts in _/etc/init.d/_ have to be symlinked into _/etc/rc{runlevel}.d/_ directories. In each runlevel, services can be set to start or stop. This is defined by the symlink name: 'S' for starting and 'K' for killing the service. And since they are always started serially, the symlink name also defines the startup order... This gets easily very confusing. To make this incomprehensible linking system manageable, additional programs are needed. This includes stuff like _update-rc.d_, _invoke-rc.d_, _sysv-rc-conf_, [hideous and kludgy](http://skarnet.org/software/s6/overview.html) _start-stop-daemon_, and workarounds like _insserv_ and _startpar_ for starting some [services in parallel](https://wiki.debian.org/BootProcessSpeedup#Parallelizing_init.d_scripts) despite the SysVinit's sequential nature.
 
 To get a quick overview of this chaos, running `sysv-rc-conf --show=12345S` shows something like this (levels 2,3,4,5 are almost always used together as a single all-on/all-off level):
 
@@ -319,5 +319,5 @@ Each init system has it's strengths and weaknesses. It is important to know and 
 
 <a href="https://creativecommons.org/licenses/by/4.0/"><img src="../cc-by.png" align="right" style="padding:30px;"></a><br>
 <p class="footer">
-cloux@rote.ch (2018)
+cloux@rote.ch (2018-02)
 </p>

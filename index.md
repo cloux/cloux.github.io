@@ -27,3 +27,4 @@ Short description and evaluation of some popular init systems: [SysVinit](init/#
 <p class="footer">
 cloux@rote.ch (2018)
 </p>
+
