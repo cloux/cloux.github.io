@@ -161,16 +161,15 @@ Also dubbed the Maxwell's equations of Unix process supervision<sup>([1](http://
 
 runit design directly resembles the three main "lifetime" stages of a computer: **booting**, **running**, and **shutdown**, which are represented by three scripts named _1_,_2_ and _3_ placed in _/etc/runit/_. The first _boot_ stage runs all commands sequentially. The second _running_ stage just starts the service supervisor, which runs services in parallel. The third _shutdown_ stage runs everything sequentially again.
 
-In the early boot, the command dependencies are heavy, very little can be done in parallel. Here the sequential execution offers stability, easy configurability and maintenance, while the speed sacrifice compared to a parallel boot is very low. The boot stage of runit can even fully initialize the system and completely replace [initrd](https://www.kernel.org/doc/html/v4.12/admin-guide/initrd.html). This direct initrd-free boot offers additional speedup and configuration flexibility, and this is exactly how the [Devuan+Runit for AWS EC2](https://github.com/cloux/aws-devuan) is built.
+In the early boot, the command dependencies are heavy, very little can be done in parallel. Here the sequential execution offers stability, easy configurability and maintenance, while the speed sacrifice compared to a parallel boot is very low. The boot stage of runit can even fully initialize the system and completely replace [initrd](https://www.kernel.org/doc/html/v4.12/admin-guide/initrd.html). This direct initrd-free boot offers additional speedup and configuration flexibility. This is exactly how the [Devuan+Runit for AWS EC2](https://github.com/cloux/aws-devuan) was built.
 
-In the second supervised running stage, where service dependencies are less prominent, everything is simply run in parallel. This serial-boot/parallel-supervision design strikes a good balance between simplicity and resource usage, offering sufficient system for many use cases. The supervisor program might optionally manage services in groups, also called "runlevels". This is different from [SysVinit](#sysvinit), where the runlevels are predefined for all stages.
+In the second supervised running stage, where service dependencies are less prominent, everything is simply run in parallel. This serial-boot/parallel-supervision design strikes a good balance between simplicity and resource usage, offering sufficient system for many use cases. The supervisor program might optionally manage services in groups, also called "[runlevels](http://smarden.org/runit/runlevels.html)". This is different from [SysVinit](#sysvinit), where the runlevels are predefined for all stages.
 
 runit works very well with symlinks and resolves them properly. This allows for some tricks in service definitions, like implementation of agetty-1..6 just symlinked to [agetty-generic](https://github.com/cloux/aws-devuan/tree/master/etc/sv/agetty-generic). runit's supervisor control `sv` also understands when it is symlinked in place of an initscript, e.g.:
 
 `mv /etc/init.d/mysql /etc/init.d/mysql.orig; ln -s /usr/bin/sv /etc/init.d/mysql`
 
-then running `/etc/init.d/mysql start` works! This means perfect backward compatibility with initscripts. `sv` also supports service names or full service paths, which allows for unique simplicity. Even using tricks like glob matching is allowed:  
-`sv stop /etc/service/agetty*` is a valid command, stopping all supervised _agetty_ services. Another use case:
+then running `/etc/init.d/mysql start` works! This means perfect backward compatibility with SysVinit's initscripts. `sv` also supports full service paths, which allows for unique simplicity. Even using tricks like glob matching is allowed: `sv stop /etc/service/agetty*` is a valid command, stopping all supervised _agetty_ services. Another use case:
 
 **How to quickly find services that should be running, but refuse to start?**
 
