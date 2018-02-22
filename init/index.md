@@ -100,7 +100,7 @@ The point is, that all this complexity, extensions, and hacks are in place just 
  * New GNU/Linux distributions
  * Modern systems where speed has priority
 
-SysVinit shows its age, but there are kludgy workarounds available for almost anything. It is hardly recommended for a modern Linux distribution, but does well in older distros and on less powerful hardware. Linux SysVinit is still (as of 2018) used as default by [PCLinuxOS](http://www.pclinuxos.com), [Antix](http://antix.mepis.org), [Slackware](http://www.slackware.com), [Devuan](https://devuan.org), [Refracta](http://www.ibiblio.org/refracta/) and others.
+SysVinit shows its age, but there are kludgy workarounds available for almost anything. It is hardly recommended for a modern Linux distribution, but does well in older distros and on less powerful hardware. SysVinit is still (as of 2018) used as default by [PCLinuxOS](http://www.pclinuxos.com), [Antix](http://antix.mepis.org), [Slackware](http://www.slackware.com), [Devuan](https://devuan.org), [Refracta](http://www.ibiblio.org/refracta/) and others.
 
 ---
 ---
