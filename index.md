@@ -22,7 +22,7 @@ Short description and evaluation of some popular init systems: [SysVinit](init/#
 <br>
 <p class="trademark">
 <b>Used Trademarks</b><br>
-"AWS" and "Amazon EC2" are registered trademarks of Amazon.com Inc., "Devuan" is a registered trademark of the Dyne.org foundation, "Debian" is a registered trademark of Software in the Public Interest Inc., "Ubuntu" is a registered Trademark of Canonical Inc.,  "SuSE" is a registered trademark of SUSE IP Development Ltd., Red Hat is a trademark or registered trademark of Red Hat Inc. or its subsidiaries, "Gentoo" is a registered trademark of Gentoo Foundation Inc., Linux is a registered trademark of Linus Torvalds. All other possibly and impossibly mentioned trademarks are the property of their respective owners.
+"AWS" and "Amazon EC2" are registered trademarks of Amazon.com Inc., "Devuan" is a registered trademark of the Dyne.org foundation, "Debian" is a registered trademark of Software in the Public Interest Inc., "Ubuntu" is a registered Trademark of Canonical Inc.,  "SuSE" is a registered trademark of SUSE IP Development Ltd., Red Hat is a trademark or registered trademark of Red Hat Inc. or its subsidiaries, "Gentoo" is a registered trademark of Gentoo Foundation Inc., Google is a registered trademark of Google LLC, Linux is a registered trademark of Linus Torvalds. All other possibly and impossibly mentioned trademarks are the property of their respective owners.
 </p>
 <p class="footer">
 cloux@rote.ch (2018)
