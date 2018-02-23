@@ -195,13 +195,12 @@ How would you do that in SysVinit? Since it's not supervised it is impossible to
 
  * Critical systems with high priority for security, reliability and stability
  * Init replacement in existing systems
- * New distributions
  * Embedded systems
  * Servers
  
 **NOT recommended use:**
 
- * General purpose Linux distributions (s6 might cover more use cases)
+ * General purpose Linux distributions (s6 covers more use cases)
  * Replacement in existing systems heavily dependent on existing SysVinit scripts
 
 Used as default by [VOID](https://www.voidlinux.eu), [Dragora](http://www.dragora.org/), and as the init of choice in my [AWS EC2 Devuan GNU/Linux](https://github.com/cloux/aws-devuan) distribution.
@@ -210,28 +209,30 @@ Used as default by [VOID](https://www.voidlinux.eu), [Dragora](http://www.dragor
 ---
 ## s6 
  
-The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s**uite" ([s6](http://skarnet.org/software/s6/)) is being developed by a single engineer - Laurent Bercot, and is the most advanced init in the daemontools family. Powerful functionality, in a relatively small amount of code. Consists of more than 60 (sixty) commands and libraries for system initialization, service supervision, dependency management, inter-process synchronization, access control, privilege gain, advanced logging, and then some<sup>([1](https://skarnet.org/software/s6/index.html))</sup>. If you can think of it, s6 has it. Even features you don't really need, like socket activation: "_It's important to realize that you don't need socket activation. It's a marketing word used by systemd advocates that mixes a couple useful architecture concepts and several horrible ideas, for a very minor speed benefit_"<sup>([2](https://skarnet.org/software/s6/socket-activation.html))</sup>. This is a bold statement directly from the author. He doesn't try to sell you on anything. You are not required to use all features of s6, nothing is forced upon you. All commands and libraries are fairly independent, can be used separately and easily combined with other init systems.
+The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s**uite" ([s6](http://skarnet.org/software/s6/)) is being developed by a single engineer - Laurent Bercot, and is the most advanced init in the daemontools family (and beyond). Originally developed for embedded devices, it is extremely lightweight and efficient. It features powerful functionality in modular code separated into small binaries. Consists of more than 60 (sixty) commands and libraries for system initialization, service supervision, dependency management, inter-process synchronization, access control, privilege gain, advanced logging, and then some<sup>([1](https://skarnet.org/software/s6/index.html))</sup>. If you can think of it, s6 has it. Even features you don't really need, like socket activation: "_It's important to realize that you don't need socket activation. It's a marketing word used by systemd advocates that mixes a couple useful architecture concepts and several horrible ideas, for a very minor speed benefit_"<sup>([2](https://skarnet.org/software/s6/socket-activation.html))</sup>. This is a bold statement directly from the author. He doesn't try to sell you on anything. You are not required to use all features of s6, nothing is forced upon you. The commands are divided into independent groups, can be used separately and easily combined with other init systems.
 
 **Pros:**
 
  * Complete init system: PID1 binary, service supervisor, advanced logging with regex filter support<sup>([3](https://skarnet.org/software/s6/s6-log.html))</sup>
  * Actively maintained and continuously expanded<sup>([4](https://git.skarnet.org/cgi-bin/cgit.cgi/s6/))</sup>
+ * Efficient, very low on resources
  * Lots of features
  
 **Cons:**
 
  * More complex system, steeper learning curve compared to runit
- * Unusual service control commands: uses `-wu` instead of `start`, `-wd` instead of `stop`...
+ * Unusual service control commands: uses `-wu` instead of `start`, `-wd` instead of `stop` etc.
 
 **Recommended use:**
 
  * New general-purpose Linux distributions
  * Critical infrastructure, servers
+ * Embedded systems
  * When stable, secure design together with advanced features are required
 
 **NOT recommended:**
 
- * Beginners searching for an easy way to replace current init
+ * Beginners searching for an easy, straightforward way to replace current init
 
 Being the most universal and advanced init today, s6 should be a good fit for almost any purpose. Currently, s6 is the default init in [Obarun](https://obarun.org) GNU/Linux.
 
