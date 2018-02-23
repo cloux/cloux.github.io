@@ -215,7 +215,7 @@ The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s
 
  * Complete init system: PID1 binary, service supervisor, advanced logging with regex filter support<sup>([3](https://skarnet.org/software/s6/s6-log.html))</sup>
  * Actively maintained and continuously expanded<sup>([4](https://git.skarnet.org/cgi-bin/cgit.cgi/s6/))</sup>
- * Efficient, very low on resources
+ * Efficient, very light on resources
  * Lots of features
  
 **Cons:**
