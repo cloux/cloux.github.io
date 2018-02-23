@@ -34,7 +34,6 @@ Running computer tasks in parallel is generally much more complicated than simpl
 
 **Disadvantages of parallel init:**
 
- * On some systems like single-CPU virtual machines or embedded systems, there is mostly no visible speed gain, since nothing truly runs in parallel. Processes might even finish slightly slower due to enforced [context switching](https://en.wikipedia.org/wiki/Context_switch).
  * On some systems parallel boot might cause a serious slowdown. This is true for example when booting from sequential media like live CD/DVDs. See [Knoppix presentation video](https://youtu.be/lDXsw2ijRkw?t=1013).
 
 The "lifetime" of a running computer can be divided into three stages: **booting**, **running** and **shutdown**. Every init system implements these stages differently, with different level of parallelization.
