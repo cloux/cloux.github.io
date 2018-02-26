@@ -3,7 +3,7 @@
 <a href="https://devuan.org/os/init-freedom/"><img src="if.png" align="right" style="padding:30px;"></a>
 # Init systems - overview
 
-This is a quick overview of some popular [init systems](https://wikipedia.org/wiki/Init), not a complete documentation of all their features. Init systems, not being actively used in current distributions, were left out. Implementation details are omitted, things are simplified and generalized, sometimes at the expense of accuracy. This is deliberate, in order to keep this as readable as possible for normal users and administrators. The goal is to show main differences in the basic concepts, point out highlights, drawbacks, and [use cases](https://en.wikipedia.org/wiki/Use_case).
+This is a quick overview of some popular [init systems](https://wikipedia.org/wiki/Init), not a complete documentation of all their features. Init systems not being actively used in current distributions are left out. Implementation details are omitted, things are simplified and generalized, sometimes at the expense of accuracy. This is deliberate, in order to keep this as readable as possible for normal users and administrators. The goal is to show main differences in the basic concepts, point out highlights, drawbacks, and [use cases](https://en.wikipedia.org/wiki/Use_case).
 
 ### About init
 
@@ -189,7 +189,8 @@ How would you do that in SysVinit? Since it's not supervised it is impossible to
 **Cons:**
 
  * Only basic, indirect support for service dependencies
- * Weird [svlogd](http://smarden.org/runit/svlogd.8.html) logger filter configuration syntax<sup>([1](http://smarden.org/runit/svlogd.8.html#sect7))</sup>
+ * Not very active project, the latest version 2.1.2 is from august 2014<sup>([1](https://en.wikipedia.org/wiki/Runit))</sup>
+ * Weird [svlogd](http://smarden.org/runit/svlogd.8.html) logger filter configuration syntax<sup>([2](http://smarden.org/runit/svlogd.8.html#sect7))</sup>
 
 **Recommended use:**
 
@@ -319,7 +320,7 @@ Looking at the above pros/cons and recommended use of systemd, exactly the same 
 ---
 ## Conclusion
 
-Each init system has it's strengths and weaknesses. It is important to know and understand them, to be able to pick the right tool for the job. There is no single best init system for everything, and there is no init that would be bad or useless. If you feel your init is the weak part of your system, then the init you picked is not a good fit for what you are trying to do. Re-evaluate and try again, see [Engineering vs. Development](/engineering).
+Each init system has it's strengths and weaknesses. It is important to know and understand them to be able to pick the right tool for the job. There is no single best init system for everything, and there is no init that would be completely useless. If you feel your init is the weak part of your system, then the init you picked is not a good fit for what you are trying to do. Re-evaluate and try again, see [Engineering vs. Development](/engineering).
 
 <a href="https://creativecommons.org/licenses/by/4.0/"><img src="../cc-by.png" align="right" style="padding:30px;"></a><br>
 <p class="footer">
