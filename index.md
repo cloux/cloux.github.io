@@ -1,9 +1,8 @@
 
 ---
 
-Outline the importance of basic architecture decisions: build a stable server, efficiently run and maintain services, analyze and fix problems. View from a standpoint of a software engineer, administrator and a Linux user.
-
-Ideas behind the systemd-free **Amazon AWS EC2 Devuan + Runit GNU/Linux**: **[https://github.com/cloux/aws-devuan](http://github.com/cloux/aws-devuan)**
+Outline the basic server architecture decisions: how to select optimal components, build a stable server, run and maintain services, analyze and fix problems. View from a standpoint of a software engineer and Linux administrator. Application and examples from Amazon cloud environment, mainly: How-to deploy, operate and manage the systemd-free **Amazon AWS EC2 Devuan + Runit GNU/Linux** cluster  
+**[https://github.com/cloux/aws-devuan](http://github.com/cloux/aws-devuan)**
 
 ---
 ## [Software Engineering vs. Development](engineering)
