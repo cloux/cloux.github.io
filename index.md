@@ -1,9 +1,9 @@
 
 ---
 
-Outline the importance of basic architecture decisions: how to select building blocks for a stable server, efficiently run and maintain services, analyze and fix problems. View from a standpoint of a software engineer, administrator and a Linux user.
+Outline the importance of basic architecture decisions: build a stable server, efficiently run and maintain services, analyze and fix problems. View from a standpoint of a software engineer, administrator and a Linux user.
 
-Summary of the ideas behind **AWS EC2 Devuan + Runit GNU/Linux**: **[https://github.com/cloux/aws-devuan](http://github.com/cloux/aws-devuan)**
+Ideas behind the systemd-free **Amazon AWS EC2 Devuan + Runit GNU/Linux**: **[https://github.com/cloux/aws-devuan](http://github.com/cloux/aws-devuan)**
 
 ---
 ## [Software Engineering vs. Development](engineering)
