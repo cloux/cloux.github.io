@@ -1,7 +1,7 @@
 
 ---
 
-Outline the basic server architecture decisions: how to select optimal components, build a stable server, run and maintain services, analyze and fix problems. View from a standpoint of a software engineer and Linux administrator. Application and examples from Amazon cloud environment, mainly: How-to deploy, operate and manage the systemd-free **Amazon AWS EC2 Devuan + Runit GNU/Linux** cluster  
+Outline basic server architecture decisions: how to select optimal components, build a stable server, run and maintain services, analyze and fix problems. View from a standpoint of a software engineer and Linux administrator. Applications and examples from Amazon cloud environment, mainly: How-to deploy, operate and manage systemd-free **Amazon AWS EC2 Devuan + Runit GNU/Linux** cluster  
 **[https://github.com/cloux/aws-devuan](http://github.com/cloux/aws-devuan)**
 
 ---
