@@ -277,7 +277,7 @@ only to refute himself later:
 >
 ><cite> - Lennart Poettering, [Revisiting How We Put Together Linux Systems](http://0pointer.net/blog/revisiting-how-we-put-together-linux-systems.html) (2014-09-01)</cite>
 
-He talks about a meeting, where the systemd developers decided to integrate even software distribution and update mechanism into systemd. Why it's necessary to have the software management and updates locked into a particular init system remains unexplained. This controversial plan towards a singular systemd/Linux distribution is marginalizing various needs of a large portion of the Linux user base. So, why every major distribution implemented systemd as the default (and many times the **only**) init system? While the official argument ["because everyone else does"](https://wiki.debian.org/Debate/initsystem/systemd#Why_Debian_should_default_to_systemd) became a self-fulfilling prophecy, the technical arguments, comparisons and [concerned voices](https://wiki.debian.org/Debate/initsystem/sysvinit) remain unheard. By now, the attitude behind systemd is very clear: fall in line or go [fork](https://guides.github.com/activities/forking/) yourself. Some forks are now gaining interest in the commercial world. After systemd kept causing financial losses it had to be replaced:
+He talks about a meeting, where the systemd developers decided to integrate even software distribution and update mechanism into systemd. Why it's necessary to have the software management locked into a particular init system remains unexplained. This controversial plan towards a singular systemd/Linux distribution is marginalizing various needs of a large portion of the Linux user base. So, why every major distribution implemented systemd as the default (and many times the **only**) init system? While the official argument ["because everyone else does"](https://wiki.debian.org/Debate/initsystem/systemd#Why_Debian_should_default_to_systemd) became a self-fulfilling prophecy, the technical arguments, comparisons and [concerned voices](https://wiki.debian.org/Debate/initsystem/sysvinit) remain unheard. By now, the attitude behind systemd is clear: fall in line or go [fork](https://guides.github.com/activities/forking/) yourself. Some forks are now gaining interest in the commercial world. After systemd kept causing financial losses it had to be replaced:
 
 >"We tried to build our datacenter on Debian and Ubuntu, but servers that don't boot, that don't reboot or systemd-resolved that constantly interferes with our core network configuration made it too expensive to run Debian or Ubuntu. Yes, you read right: too expensive. We are a small team and we simply don't have the time to fix problems caused by systemd on a daily basis. With systemd the main advantage to use Linux is obsolete."
 >
@@ -287,7 +287,7 @@ He talks about a meeting, where the systemd developers decided to integrate even
 
 **Pros:**
 
- * Systemd is actively maintained live project
+ * systemd is actively maintained live project
  * Backed by a big stable software company
  * Used as default by all major distributions
  * Lots of community and commercial support
@@ -311,10 +311,10 @@ He talks about a meeting, where the systemd developers decided to integrate even
  * Critical infrastructure
  * Long-running appliances, servers
  * Systems where compromised security could be an issue
- * Thin or embedded devices with limited hardware capabilities, like routers
+ * Thin or [embedded devices](https://youtu.be/KTRA1PRJWH8?t=1324) with limited hardware capabilities, like routers
  * Live CD/DVD media
 
-Looking at the above pros/cons and recommended use of systemd, exactly the same bulletpoints would fit well to another system: Microsuck Winblows. Which is not inherently a problem, if you incorporate this information into your evaluation process. If you have a non-technical friend, looking for a open-source remake for his PC or laptop, many distributions running systemd are a great start: [Ubuntu](https://www.ubuntu.com/desktop), [Solus](https://solus-project.com), [Zorin OS](https://zorinos.com)... all of them are very beautiful, full-featured modern desktops. Many users could even be easily fooled that this is a new version of Winblows. Interesting is that many experts looking at systemd are now **convinced** that this **is** a new Winblows <sup>([1](https://skarnet.org/software/s6/systemd.html)),([2](https://www.infoworld.com/article/2608870/linux/you-have-your-windows-in-my-linux.html)),([3](http://www.zdnet.com/article/linus-torvalds-and-others-on-linuxs-systemd/))</sup>.
+Looking at the above pros/cons and recommended use of systemd, exactly the same bulletpoints would fit well to another system: Microsuck Winblows. Which is not inherently a problem, if you incorporate this information into your evaluation process. If you have a non-technical friend, looking for a open-source remake for his PC or laptop, many distributions running systemd are a great start: [Ubuntu](https://www.ubuntu.com/desktop), [Solus](https://solus-project.com), [Zorin OS](https://zorinos.com)... all of them are very beautiful, full-featured modern desktops. Many users could even be easily fooled that this is a new version of Winblows. Interesting is that many experts looking at systemd are **convinced** that this **is** a new Winblows <sup>([1](https://skarnet.org/software/s6/systemd.html)),([2](https://www.infoworld.com/article/2608870/linux/you-have-your-windows-in-my-linux.html)),([3](http://www.zdnet.com/article/linus-torvalds-and-others-on-linuxs-systemd/))</sup>.
 
 ---
 ---
