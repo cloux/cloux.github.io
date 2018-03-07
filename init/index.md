@@ -176,7 +176,7 @@ then running `/etc/init.d/mysql start` works! This means perfect backward compat
 
 That's it. Simple. Even better, you can just use 's' instead of 'status', so `sv s /etc/service/*` works just fine.
 
-How would you do that in SysVinit? Since it's not supervised it is impossible to do it directly. It could be done, but a huge, ugly, bloated workaround would be necessary, like for everything else in SysVinit. The [systemd](#systemd) wrapper command `service --status-all` could be used, but it shows status for all installed services, regardless of they are active in current runlevel or not. In systemd you can see all services that should start at boot: `systemctl list-unit-files --state=enabled`, services either running or exited:  
+How would you do that in SysVinit? Since it's not supervised it is impossible to do it directly. It could be done, but a huge, ugly, bloated workaround would be necessary, like for everything else in SysVinit. The [systemd](#systemd) wrapper command `service --status-all` could be used, but it shows status for all installed services, even if they are inactive in current runlevel. In systemd you can see all services that should start at boot: `systemctl list-unit-files --state=enabled`, services either running or exited:  
 `systemctl list-units --type=service | grep active`... but still, none of them really show what I want to see. Maybe there is a command for it, but Google can't seem to find it.
 
 
