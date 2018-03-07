@@ -15,13 +15,13 @@ Init is the first process (PID1) started by the kernel and continues to run unti
 
 Init commands were historically designed to run serially, in a sequence. Later on as computer hardware became more powerful, software parallelization became necessary as the means of taking advantage of this trend (see [Amdahl's-Gustaffson's trend](https://software.intel.com/en-us/articles/amdahls-law-gustafsons-trend-and-the-performance-limits-of-parallel-applications) and limits of parallelization study). This trend was also applied to modern designs of init systems. Unfortuantely, absolute boot parallelization is impossible due to dependencies. Some tasks cannot be started unless others are finished. A logfile cannot be written until the filesystem is mounted, the filesystem cannot be mounted until it was checked for errors, filesytems cannot be checked until all devices are available etc.
 
-Running computer tasks in parallel is generally much more complicated than simple serial execution. It is something that operating systems were designed to do and even they used to suck at it. And when these tasks depend on each others results, the problem gets even trickier and the solution more complex. For modern, powerful systems, where boot speed is absolutely crucial and has even higher priority than stability or reliability, a parallel boot stage should definitely be considered. How big speedup are we talking about? A combined serial-parallel boot of [runit](#runit) on a slow single-CPU core was measured at [around 5 seconds](https://github.com/cloux/aws-devuan#ec2-linux-ami-comparison). If you need to boot faster, you might need a heavily parallelized init like [systemd](#systemd) on a multi-core CPU system. All approaches have advantages and disadvantages:
+Running computer tasks in parallel is generally much more complicated than simple serial execution. It is something that operating systems were designed to do and even they used to suck at it. And when these tasks depend on each others results, the problem gets even trickier and the solution more complex. For modern, powerful systems, where boot speed is absolutely crucial and has even higher priority than stability or reliability, a parallel boot stage should definitely be considered. How big speedup are we talking about? A combined serial-parallel boot of [runit](#runit) on a slow single-CPU core was measured at [around 5 seconds](https://github.com/cloux/aws-devuan#ec2-linux-ami-comparison). If you need to boot faster, you might need a heavily parallelized init like [systemd](#systemd). All approaches have advantages and disadvantages:
 
 **Advantages of sequential init:**
 
  * Stable
  * Easy to follow and understand what's going on, easy to debug
- * Good fit for less powerful hardware, embedded, single-CPUs, LiveCD media
+ * Good fit for less powerful hardware, embedded systems, LiveCD media
 
 **Disadvantages of sequential init:**
 
