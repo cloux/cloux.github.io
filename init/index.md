@@ -302,7 +302,7 @@ He talks about a meeting, where the systemd developers decided to integrate even
 
 **Recommended use cases:**
 
- * Personal computers with fast multi-core CPUs
+ * Fast, modern personal computers and laptops
  * Systems where low-level customization by the user is not expected
  * Systems where _speed_ or _coolness_ have higher priority than _stability_
 
@@ -314,13 +314,13 @@ He talks about a meeting, where the systemd developers decided to integrate even
  * Thin or [embedded devices](https://youtu.be/KTRA1PRJWH8?t=1324) with limited hardware capabilities, such as routers
  * Live CD/DVD media
 
-Looking at the above pros/cons and recommended use of systemd, exactly the same bulletpoints would fit well to another system: Microsuck Winblows. This is not inherently a problem if you incorporate this information into your evaluation process. If you have a non-technical friend, looking for an open-source remake for his PC or laptop, many distributions running systemd are a great start: [Ubuntu](https://www.ubuntu.com/desktop), [Solus](https://solus-project.com), [Zorin OS](https://zorinos.com)... all of them are very beautiful, full-featured modern desktops. Many users could even be easily fooled that this is a new version of Winblows. Interesting is that many experts looking at systemd are **convinced** that this **is** a new Winblows <sup>([1](https://skarnet.org/software/s6/systemd.html)),([2](https://www.infoworld.com/article/2608870/linux/you-have-your-windows-in-my-linux.html)),([3](http://www.zdnet.com/article/linus-torvalds-and-others-on-linuxs-systemd/))</sup>.
+Looking at the above pros/cons and recommended use of systemd, exactly the same bulletpoints would fit well to another system: Microsuck Winblows. This is not inherently a problem if you incorporate this information into your [evaluation](engineering/#evaluation) process. If you have a non-technical friend, looking for an open-source remake for his PC or laptop, many distributions running systemd are a great start: [Ubuntu](https://www.ubuntu.com/desktop), [Solus](https://solus-project.com), [Zorin OS](https://zorinos.com)... all of them are very beautiful, full-featured modern desktops. Many users could even be easily fooled that this is a new version of Winblows. Interesting is that many experts looking at systemd are **convinced** that this **is** a new Winblows <sup>([1](https://skarnet.org/software/s6/systemd.html)),([2](https://www.infoworld.com/article/2608870/linux/you-have-your-windows-in-my-linux.html)),([3](http://www.zdnet.com/article/linus-torvalds-and-others-on-linuxs-systemd/))</sup>.
 
 ---
 ---
 ## Conclusion
 
-Each init system has its strengths and weaknesses. It is important to know and understand them to be able to pick the right tool for the job. There is no single best init system for everything and there is no init that is completely useless. If you feel your init is the weak part of your system, then the init you picked is not a good fit for what you are trying to do. Re-evaluate and try again, see [Engineering vs. Development](/engineering).
+Each init system has its strengths and weaknesses. It is important to know and understand them to be able to pick the right tool for the job. There is no single best init system for everything and there is no init that is completely useless. Except for the dead [uselessd](http://uselessd.darknedgy.net/). If you feel your init is the weak part of your system, then the init you picked is not a good fit for what you are trying to do. Re-evaluate and try again, see [Engineering vs. Development](/engineering).
 
 <a href="https://creativecommons.org/licenses/by/4.0/"><img src="../cc-by.png" align="right" style="padding:30px;"></a><br>
 <p class="footer">
