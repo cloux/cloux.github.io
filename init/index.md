@@ -138,6 +138,10 @@ While not designed as complete full-featured init system, OpenRC provides an eas
 ---
 ## Daemontools Family
 
+>"The daemontools-inspired inits are simple, admin-friendly, very efficient, fast booters, easy to install without a package manager, versatile, DIY friendly, and rock solid. This is how things always should have been."
+>
+><cite>Steve Litt, "[Init System Features and Benefits](http://www.troubleshooters.com/linux/init/features_and_benefits.htm)" (2015)</cite>
+
 Also dubbed the Maxwell's equations of Unix process supervision<sup>([1](http://blog.darknedgy.net/technology/2015/09/05/0/))</sup>, the [daemontools](http://cr.yp.to/daemontools.html) suite was developed by cryptologist Daniel J. Bernstein in 1997<sup>([2](https://jdebp.eu/FGA/daemontools-family.html))</sup> as a completely new, modern approach to service management. daemontools is just a supervision suite and does not include any PID1 init process binary. The latest version 0.76 was released in 2001 and is not actively developed anymore, but its innovative design inspired some other popular init suites, notably [runit](#runit) and [s6](#s6).
 
 **Common daemontools concepts:**
@@ -156,7 +160,7 @@ Also dubbed the Maxwell's equations of Unix process supervision<sup>([1](http://
 
 >"Process supervision TLDR: Use runit."
 >
-><cite>Joshua Timberman, "[Process Supervision: Solved Problem](http://jtimberman.housepub.org/blog/2012/12/29/process-supervision-solved-problem/)" (2012-12)
+><cite>Joshua Timberman, "[Process Supervision: Solved Problem](http://jtimberman.housepub.org/blog/2012/12/29/process-supervision-solved-problem/)" (2012-12)</cite>
 
 [runit](http://smarden.org/runit/) design directly resembles the three main "lifetime" stages of a computer: **booting**, **running**, and **shutdown**, which are represented by three scripts named _1_,_2_ and _3_ placed in _/etc/runit/_. The first _boot_ stage runs all commands sequentially. The second _running_ stage just starts the service supervisor, which runs services in parallel. The third _shutdown_ stage runs everything sequentially again.
 
