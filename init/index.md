@@ -235,7 +235,7 @@ The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s
 
  * Beginners searching for an easy, straightforward way to replace current init
 
-Being the most universal and advanced init today, s6 should be a good fit for almost any purpose. Currently, s6 is the default init in [Obarun](https://obarun.org) GNU/Linux.
+Being the most universal and advanced init today, s6 should be a good fit for almost any purpose. Currently, s6 is the default init in [Obarun](https://obarun.org) and [Cromnix](https://cromnix.org/) GNU/Linux.
 
 ---
 ---
