@@ -99,7 +99,7 @@ The point is, that all this complexity, extensions, and hacks are in place just 
  * New GNU/Linux distributions
  * Modern systems where speed has priority
 
-SysVinit shows its age, but there are kludgy workarounds available for almost anything. It is hardly recommended for a modern Linux distribution, but does well in older distros and on less powerful hardware. SysVinit is still (as of 2018) used as default by [PCLinuxOS](http://www.pclinuxos.com), [Antix](http://antix.mepis.org), [Slackware](http://www.slackware.com), [Devuan](https://devuan.org), [Refracta](http://www.ibiblio.org/refracta/) and others.
+SysVinit shows its age, but there are kludgy workarounds available for almost anything. It is hardly recommended for a modern Linux distribution, but does well in older distros and on less powerful hardware. SysVinit is still (as of 2018) used as default by [PCLinuxOS](http://www.pclinuxos.com), [AntiX](https://antixlinux.com), [MX Linux](https://mxlinux.org), [Slackware](http://www.slackware.com), [Devuan](https://devuan.org), [Refracta](http://www.ibiblio.org/refracta/) and others.
 
 ---
 ---
@@ -239,7 +239,7 @@ The "**s**karnet.org's **s**mall and **s**ecure **s**upervision **s**oftware **s
 
  * Beginners searching for an easy, straightforward way to replace current init
 
-Being the most universal and advanced init today, s6 should be a good fit for almost any purpose. Currently, s6 is the default init in [Obarun](https://obarun.org) and [Cromnix](https://cromnix.org/) GNU/Linux.
+Being the most universal and advanced init today, s6 should be a good fit for almost any purpose. Currently, s6 is the default init in [Obarun](https://obarun.org) GNU/Linux.
 
 ---
 ---
