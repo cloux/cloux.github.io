@@ -257,7 +257,7 @@ As of now (2018), systemd positioned itself as the prime choice in all major dis
 >
 ><cite> - Darren Shepherd [announcing RancherOS](http://rancher.com/announcing-rancher-os)</cite>
 
-The multitude of advanced [functionality](http://0pointer.de/blog/projects/why.html) (sometimes dubbed "scope creep"<sup>([1](https://www.wikizero.com/en/Systemd#Criticism)),([2](http://without-systemd.org/wiki/index.php/Arguments_against_systemd#Scope_creep))</sup> by systemd's opponents) is causing systemd to be unstable and [prone to crashes](https://www.agwa.name/blog/post/how_to_crash_systemd_in_one_tweet). The development progress of systemd seems to closely resemble the well-known "[embrace, extend, extinguish](https://en.wikipedia.org/wiki/Embrace,_extend,_and_extinguish)" strategy formerly used by Microsoft. Whether intentional or not, this can arguably lead to a dangerous situation, especially when the developers approach to security is [famous for being lame](https://www.theregister.co.uk/2017/07/28/black_hat_pwnie_awards/). 
+The multitude of advanced [functionality](http://0pointer.de/blog/projects/why.html) (sometimes dubbed "scope creep"<sup>([1](https://www.wikizero.com/en/Systemd#Criticism)),([2](http://without-systemd.org/wiki/index.php/Arguments_against_systemd#Scope_creep))</sup> by systemd's opponents) is causing systemd to be unstable and prone to [crashes by a single command](https://www.agwa.name/blog/post/how_to_crash_systemd_in_one_tweet) or even [remotely by a single packet](https://www.theregister.co.uk/2018/10/26/systemd_dhcpv6_rce/). The development progress of systemd seems to closely resemble the well-known "[embrace, extend, extinguish](https://en.wikipedia.org/wiki/Embrace,_extend,_and_extinguish)" strategy formerly used by Microsoft. Whether intentional or not, this can arguably lead to a dangerous situation, especially when the developers approach to security is [famous for being lame](https://www.theregister.co.uk/2017/07/28/black_hat_pwnie_awards/). 
 
 >The crowd pushing systemd, possibly including its author, is not content to have systemd be one choice among many. By providing public APIs intended to be used by other applications, systemd has set itself up to be difficult not to use once it achieves a certain adoption threshold. Its popularity is purely the result of an aggressive, dictatorial marketing strategy including engulfing other essential system components, setting up for API lock-in, and dictating policy... at the expense of flexibility and diversity.
 >
@@ -292,7 +292,7 @@ He talks about a meeting, where the systemd developers decided to integrate even
 **Pros:**
 
  * systemd is actively maintained live project
- * Backed by a big stable software company
+ * Backed by a big software company (IBM - RedHat)
  * Used as default by all major distributions
  * Lots of community and commercial support
  * Lots of features
@@ -300,6 +300,7 @@ He talks about a meeting, where the systemd developers decided to integrate even
 **Cons:**
 
  * Many acclaimed engineers and experts pointed out basic design flaws
+ * Security flaws may have deep system impact, like [pwn by a single DHCP packet](https://www.theregister.co.uk/2018/10/26/systemd_dhcpv6_rce/)
  * systemd developers have exceptionally [lame responses to security](https://www.theregister.co.uk/2017/07/28/black_hat_pwnie_awards/) issues
  * Known to cause direct financial losses in datacenter environment
  * May cause further issues in systems not explicitly considered by the main developers
