@@ -99,7 +99,7 @@ The point is, that all this complexity, extensions, and hacks are in place just 
  * New GNU/Linux distributions
  * Modern systems where speed has priority
 
-SysVinit shows its age, but there are kludgy workarounds available for almost anything. It is hardly recommended for a modern Linux distribution, but does well in older distros and on less powerful hardware. SysVinit is still (as of 2018) used as default by [PCLinuxOS](http://www.pclinuxos.com), [Antix](http://antix.mepis.org), [Slackware](http://www.slackware.com), [Devuan](https://devuan.org), [Refracta](http://www.ibiblio.org/refracta/) and others.
+SysVinit shows its age, but there are kludgy workarounds available for almost anything. It is hardly recommended for a modern Linux distribution, but does well in older distros and on less powerful hardware. SysVinit is still (as of 2018) used as default by [PCLinuxOS](http://www.pclinuxos.com), [AntiX](http://antix.mepis.org), [MX Linux](https://mxlinux.org), [Slackware](http://www.slackware.com), [Devuan](https://devuan.org), [Refracta](http://www.ibiblio.org/refracta/) and others.
 
 ---
 ---
@@ -164,7 +164,14 @@ Also dubbed the Maxwell's equations of Unix process supervision<sup>([1](http://
 
 [runit](http://smarden.org/runit/) design directly resembles the three main "lifetime" stages of a computer: **booting**, **running**, and **shutdown**, which are represented by three scripts named _1_,_2_ and _3_ placed in _/etc/runit/_. The first _boot_ stage runs all commands sequentially. The second _running_ stage just starts the service supervisor, which runs services in parallel. The third _shutdown_ stage runs everything sequentially again.
 
-In the early boot where the command dependencies are heavy, very little can be done in parallel. Here the sequential execution offers stability, easy configurability and maintenance, while the speed sacrifice compared to a parallel boot is very low. The boot stage of runit can even fully initialize the system and completely replace [initrd](https://www.kernel.org/doc/html/v4.12/admin-guide/initrd.html). This direct initrd-free boot offers additional speedup and configuration flexibility. This is exactly how the [Devuan+Runit for AWS EC2](https://github.com/cloux/aws-devuan) was built.
+In the early boot where the command dependencies are heavy, very little can be done in parallel. Here the sequential execution offers stability, easy configurability and maintenance, while the speed sacrifice compared to a parallel boot is very low. The boot stage of runit can even fully initialize the system and completely replace [initrd](https://www.kernel.org/doc/html/v4.12/admin-guide/initrd.html).
+
+>"Consider building your kernel without an initrd. You'll not only save space, 
+you'll also decrease the boot time as well. Bonus!"
+>
+><cite>[pitti](https://launchpad.net/~pitti), "[Ubuntu - Reducing Disk Footprint](https://wiki.ubuntu.com/ReducingDiskFootprint#Reconfigure_and_rebuild_the_kernel)" (2012-10)</cite>
+
+Boot without initrd not only saves space and speeds up the boot time, it also makes the early stage easier to customize. This is exactly how the [Devuan+Runit for AWS EC2](https://github.com/cloux/aws-devuan) was built.
 
 In the second supervised running stage, where service dependencies are less prominent, everything is simply run in parallel. This serial-boot/parallel-supervision design strikes a good balance between simplicity and resource usage, offering sufficient system for many use cases. The supervisor program might optionally manage services in groups, also called "[runlevels](http://smarden.org/runit/runlevels.html)". This is different from [SysVinit](#sysvinit), where the runlevels are predefined for all stages.
 
